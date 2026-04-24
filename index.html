@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evolución de la Pobreza Multidimensional</title>
+    <style>
+        /* Restablecer márgenes y aplicar fuente base */
+        body {
+            margin: 0;
+            padding: 2rem;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            color: #333333;
+            background-color: #ffffff;
+        }
+
+        /* Contenedor principal para emular el layout="wide" de Streamlit */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Tipografía Serif para el título principal, estilo periódico */
+        h1 {
+            font-family: 'Georgia', Times, serif;
+            color: #121212;
+            font-size: 2.8rem;
+            border-bottom: 2px solid #121212;
+            padding-bottom: 10px;
+            margin-bottom: 5px;
+            margin-top: 0;
+        }
+
+        /* Línea divisoria */
+        hr {
+            border: 0;
+            height: 1px;
+            background: #ccc;
+            margin-bottom: 2rem;
+        }
+
+        /* Sistema de columnas usando Flexbox */
+        .row {
+            display: flex;
+            gap: 2rem;
+        }
+
+        /* Columna del mapa (75%) */
+        .col-mapa {
+            flex: 3;
+        }
+
+        /* Columna de texto y controles (25%) */
+        .col-texto {
+            flex: 1;
+        }
+
+        /* Estilos para los botones de radio */
+        .radio-group {
+            margin-top: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .radio-group label {
+            cursor: pointer;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Responsividad: apilar columnas en pantallas pequeñas */
+        @media (max-width: 768px) {
+            .row {
+                flex-direction: column-reverse;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Evolución de la pobreza multidimensional regional a través del tiempo</h1>
+        <p><strong>Por Rodrigo Olagnier y María Fernanda Banderas</strong> | Actualizado en abril de 2026</p>
+        <hr>
+
+        <div class="row">
+            
+            <div class="col-mapa" id="map-container">
+                </div>
+
+            <div class="col-texto">
+                <p><em>Una mirada interactiva a cómo ha fluctuado la tasa de pobreza multidimensional a lo largo de casi una década.</em></p>
+                
+                <p><strong>Selecciona un año:</strong></p>
+                <div class="radio-group">
+                    <label><input type="radio" name="year" value="2015"> 2015</label>
+                    <label><input type="radio" name="year" value="2017"> 2017</label>
+                    <label><input type="radio" name="year" value="2022"> 2022</label>
+                    <label><input type="radio" name="year" value="2024" checked> 2024</label>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // Objeto que almacena los iframes correspondientes a cada año
+        const mapasDatawrapper = {
+            "2015": `<iframe title="Tasa de pobreza multidimensional en 2015 según región" aria-label="Choropleth map" id="datawrapper-chart-GVU9J" src="https://datawrapper.dwcdn.net/GVU9J/4/" scrolling="no" frameborder="0" style="border: none;" width="100%" height="1100" data-external="1"></iframe>`,
+            "2017": `<iframe title="Tasa de pobreza multidimensional en 2017 según región" aria-label="Choropleth map" id="datawrapper-chart-qc4Kp" src="https://datawrapper.dwcdn.net/qc4Kp/3/" scrolling="no" frameborder="0" style="border: none;" width="100%" height="1100" data-external="1"></iframe>`,
+            "2022": `<iframe title="Tasa de pobreza multidimensional en 2022 según región" aria-label="Choropleth map" id="datawrapper-chart-12SZg" src="https://datawrapper.dwcdn.net/12SZg/3/" scrolling="no" frameborder="0" style="border: none;" width="100%" height="1100" data-external="1"></iframe>`,
+            "2024": `<iframe title="Tasa de pobreza multidimensional en 2024 según región" aria-label="Choropleth map" id="datawrapper-chart-CugRa" src="https://datawrapper.dwcdn.net/CugRa/1/" scrolling="no" frameborder="0" style="border: none;" width="100%" height="1100" data-external="1"></iframe>`
+        };
+
+        // Elementos del DOM
+        const mapContainer = document.getElementById('map-container');
+        const radioButtons = document.querySelectorAll('input[name="year"]');
+
+        // Función para actualizar el mapa en pantalla
+        function updateMap(year) {
+            mapContainer.innerHTML = mapasDatawrapper[year];
+        }
+
+        // Cargar el mapa por defecto al abrir la página (2024, porque tiene el atributo "checked" en HTML)
+        updateMap("2024");
+
+        // Escuchar los cambios en los botones de radio
+        radioButtons.forEach(radio => {
+            radio.addEventListener('change', (evento) => {
+                const anioSeleccionado = evento.target.value;
+                updateMap(anioSeleccionado);
+            });
+        });
+    </script>
+
+</body>
+</html>
